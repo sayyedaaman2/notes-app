@@ -7,5 +7,6 @@ beforeEach(()=>{
     console.log("Testing is running ............................................................")
 })
 afterEach(()=>{
+    console.log("cleaning up.")
     cleanup();
 })
