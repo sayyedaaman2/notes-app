@@ -1,10 +1,14 @@
+import Notes from "./components/Notes"
+import ContextProvider from "./context/ContextProvider"
 
 
 function App() {
 
   return (
     <>
-     <h1 className="text-4xl text-blue-400">Vite + React</h1>
+      <ContextProvider>
+        <Notes />
+      </ContextProvider>
     </>
   )
 }
