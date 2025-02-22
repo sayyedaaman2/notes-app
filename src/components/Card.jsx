@@ -5,6 +5,7 @@ import { GoPin } from 'react-icons/go'
 import { FaTrash } from "react-icons/fa";
 import { useDeleteNote, useUpdateNote } from "../hooks/queryClient";
 import { TbPinnedOff } from "react-icons/tb";
+import { notify } from "../hooks/useNotification";
 
 
 export default function Card({ id, title, content,pin=false }) {
@@ -24,9 +25,16 @@ export default function Card({ id, title, content,pin=false }) {
         event.stopPropagation();
         setDeleteButtonContent("Deleting...")
         deleteNote(id,{
-            onSuccess : ()=> setDeleteButtonContent("Deleted"),
+            onSuccess : ()=> {
+                setDeleteButtonContent("Deleted");
+                notify("success", "Note Deleted Successfuly.")
+            },
             onSettled : ()=> setTimeout(()=> setDeleteButtonContent(<FaTrash/>),2000),
-            onError : ()=> setDeleteButtonContent("Try Again!")
+            onError : ()=> {
+                setDeleteButtonContent("Try Again!");
+             
+                notify("error", "Note Deletion Failed!.")
+            }
         });
     }
     function pinNote(id, event) {
@@ -35,16 +43,32 @@ export default function Card({ id, title, content,pin=false }) {
         if(!pin){
             setPinButtonContent("Pinning");
             updateNote({ id, data: { title, content,pin :!pin } },{
-                onSuccess : ()=> setPinButtonContent("Pinned"),
-                onSettled : ()=> setTimeout(()=> setPinButtonContent(<TbPinnedOff/>) ,2000),
-                onError : ()=> setPinButtonContent("Try Again!")
+                onSuccess : ()=> {
+                    setPinButtonContent("Pinned");
+                    notify('success',"Note Pinned")
+                    setTimeout(()=> setPinButtonContent(<TbPinnedOff/>) ,2000)
+                },
+              
+                onError : ()=> {
+                    setPinButtonContent("Try Again!");
+                    setTimeout(()=> setPinButtonContent(<GoPin />),1000)
+                    notify("error", "Note Pin Failed!.")
+                }
             });
         }else{
             setPinButtonContent('Unpining');
             updateNote({ id, data: { title, content,pin :!pin } },{
-                onSuccess : ()=> setPinButtonContent("UnPinned"),
-                onSettled : ()=> setTimeout(()=> setPinButtonContent(<GoPin/>) ,2000),
-                onError : ()=> setPinButtonContent("Try Again!")
+                onSuccess : ()=> {
+                    setPinButtonContent("UnPinned");
+                    notify('success',"Note Unpinned")
+                    setTimeout(()=> setPinButtonContent(<GoPin/>) ,2000)
+                },
+                
+                onError : ()=> {
+                    setPinButtonContent("Try Again!");
+                    setTimeout(()=> setPinButtonContent(<TbPinnedOff/>),1000)
+                    notify("error", "Note Unpin Failed!.")
+                }
             });
         }
 
@@ -54,12 +78,20 @@ export default function Card({ id, title, content,pin=false }) {
         let { id, title, content } = data;
         setSaveButtonContent("Saving....");
         updateNote({ id, data: { title, content } },{
-            onSuccess : ()=> setSaveButtonContent("Saved"),
+            onSuccess : ()=> {
+                setSaveButtonContent("Saved");
+                notify('success',"Note Updated.")
+
+            },
             onSettled : ()=> setTimeout(()=> {
                 setSaveButtonContent('save') 
                 setIsEditable(false)
             },2000),
-            onError : ()=> setSaveButtonContent("Try Again!")
+            onError : ()=> {
+                setSaveButtonContent("Try Again!");
+                notify("error", "Note Update Failed!.")
+
+            }
         });
 
 

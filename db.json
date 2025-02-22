@@ -1,16 +1,10 @@
 {
   "notes": [
     {
-      "id": "1",
-      "title": "jane's phone number",
-      "content": "555 666 777  888",
-      "pin": true
-    },
-    {
       "id": "2",
       "title": "Shopiing list",
-      "content": "-milk\n-tomato",
-      "pin": true
+      "content": "-milk\n-tomato\n-vegatables",
+      "pin": false
     },
     {
       "id": "8a74ed2b-8d68-4b0d-bba2-95d5abdc12d5",
@@ -19,10 +13,14 @@
       "pin": false
     },
     {
-      "id": "9bbe74c1-899a-4afa-8c1c-cb9ed2b7a984",
-      "title": "javascript",
-      "content": "javascript is a scripting languages. ",
-      "pin": true
+      "id": "9ec18265-57e3-4dfa-a655-74893cf522f7",
+      "title": "dfafa",
+      "content": "adfadsfa"
+    },
+    {
+      "id": "10",
+      "title": "testing purpose",
+      "content": "This is A Content."
     }
   ]
 }

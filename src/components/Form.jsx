@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { notify } from "../hooks/useNotification";
 export default function Form({id="",title="",content="",ActionButton, onClickHandler=()=>{}}) {
     const [form, setForm] = useState({
         id,
@@ -9,7 +10,14 @@ export default function Form({id="",title="",content="",ActionButton, onClickHan
  
     function onSubmitHandler(e) {
         e.preventDefault();
-      
+        if(!form.title){
+            notify('error',"Title is Required!")
+            return;
+        }
+        if(!form.content){
+            notify("error","Content is Required!")
+            return;
+        }
         onClickHandler(form)
 
     }

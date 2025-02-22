@@ -4,6 +4,7 @@ export const useNoteQuery = ()=>{
     return useQuery({
         queryKey : ["notes"],
         queryFn : async()=> await noteApi.get("notes",{ _sort: "pin", _order: 'asc' }),
+        retry : 0,
     })
 }
 
@@ -13,7 +14,6 @@ export function useAddNote(){
     return useMutation({
         mutationKey : "add",
         mutationFn: async (data) => await noteApi.post("notes/",{},data),
-
         onSuccess: ()=>{
             queryClient.invalidateQueries(["notes"]); // ✅ Refresh the list after adding
         }
