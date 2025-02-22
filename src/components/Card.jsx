@@ -8,10 +8,10 @@ import { TbPinnedOff } from "react-icons/tb";
 import { notify } from "../hooks/useNotification";
 
 
-export default function Card({ id, title, content,pin=false }) {
+export default function Card({ id, title, content, pin = false }) {
     const [saveButtonContent, setSaveButtonContent] = useState("Save");
-    const [pinButtonContent, setPinButtonContent] = useState(!pin ? <GoPin /> : <TbPinnedOff/>)
-    const [deleteButtonContent, setDeleteButtonContent] = useState( <FaTrash />)
+    const [pinButtonContent, setPinButtonContent] = useState(!pin ? <GoPin /> : <TbPinnedOff />)
+    const [deleteButtonContent, setDeleteButtonContent] = useState(<FaTrash />)
     const [isEditable, setIsEditable] = useState(false);
     const cardRef = useRef(null)
     const { mutateAsync: updateNote, } = useUpdateNote();
@@ -24,70 +24,69 @@ export default function Card({ id, title, content,pin=false }) {
     function deleteNoteHandler(id, event) {
         event.stopPropagation();
         setDeleteButtonContent("Deleting...")
-        deleteNote(id,{
-            onSuccess : ()=> {
+        deleteNote(id, {
+            onSuccess: () => {
                 setDeleteButtonContent("Deleted");
                 notify("success", "Note Deleted Successfuly.")
             },
-            onSettled : ()=> setTimeout(()=> setDeleteButtonContent(<FaTrash/>),2000),
-            onError : ()=> {
+            onSettled: () => setTimeout(() => setDeleteButtonContent(<FaTrash />), 2000),
+            onError: () => {
                 setDeleteButtonContent("Try Again!");
-             
+
                 notify("error", "Note Deletion Failed!.")
             }
         });
     }
     function pinNote(id, event) {
         event.stopPropagation();
-        console.log('pin Note', id);
-        if(!pin){
+        if (!pin) {
             setPinButtonContent("Pinning");
-            updateNote({ id, data: { title, content,pin :!pin } },{
-                onSuccess : ()=> {
+            updateNote({ id, data: { title, content, pin: !pin } }, {
+                onSuccess: () => {
                     setPinButtonContent("Pinned");
-                    notify('success',"Note Pinned")
-                    setTimeout(()=> setPinButtonContent(<TbPinnedOff/>) ,2000)
+                    notify('success', "Note Pinned")
+                    setTimeout(() => setPinButtonContent(<TbPinnedOff />), 2000)
                 },
-              
-                onError : ()=> {
+
+                onError: () => {
                     setPinButtonContent("Try Again!");
-                    setTimeout(()=> setPinButtonContent(<GoPin />),1000)
+                    setTimeout(() => setPinButtonContent(<GoPin />), 1000)
                     notify("error", "Note Pin Failed!.")
                 }
             });
-        }else{
-            setPinButtonContent('Unpining');
-            updateNote({ id, data: { title, content,pin :!pin } },{
-                onSuccess : ()=> {
+        } else {
+            setPinButtonContent('UnPinning');
+            updateNote({ id, data: { title, content, pin: !pin } }, {
+                onSuccess: () => {
                     setPinButtonContent("UnPinned");
-                    notify('success',"Note Unpinned")
-                    setTimeout(()=> setPinButtonContent(<GoPin/>) ,2000)
+                    notify('success', "Note Unpinned")
+                    setTimeout(() => setPinButtonContent(<GoPin />), 2000)
                 },
-                
-                onError : ()=> {
+
+                onError: () => {
                     setPinButtonContent("Try Again!");
-                    setTimeout(()=> setPinButtonContent(<TbPinnedOff/>),1000)
+                    setTimeout(() => setPinButtonContent(<TbPinnedOff />), 1000)
                     notify("error", "Note Unpin Failed!.")
                 }
             });
         }
 
-        
+
     }
     function onClickHandler(data) {
         let { id, title, content } = data;
         setSaveButtonContent("Saving....");
-        updateNote({ id, data: { title, content } },{
-            onSuccess : ()=> {
+        updateNote({ id, data: { title, content } }, {
+            onSuccess: () => {
                 setSaveButtonContent("Saved");
-                notify('success',"Note Updated.")
+                notify('success', "Note Updated.")
 
             },
-            onSettled : ()=> setTimeout(()=> {
-                setSaveButtonContent('save') 
+            onSettled: () => setTimeout(() => {
+                setSaveButtonContent('save')
                 setIsEditable(false)
-            },2000),
-            onError : ()=> {
+            }, 2000),
+            onError: () => {
                 setSaveButtonContent("Try Again!");
                 notify("error", "Note Update Failed!.")
 
@@ -124,13 +123,13 @@ export default function Card({ id, title, content,pin=false }) {
                         <p className="">
                             {content}
                         </p>
-                        <Button onClick={(event) => pinNote(id, event)} className=" absolute border  top-10 right-10 cursor-pointer hover:bg-blue-500 hover:text-white">
+                        <Button aria-label="pin" onClick={(event) => pinNote(id, event)} className=" absolute border  top-10 right-10 cursor-pointer hover:bg-blue-500 hover:text-white">
 
                             {
                                 pinButtonContent
                             }
                         </Button>
-                        <Button onClick={(event) => deleteNoteHandler(id, event)} className=" absolute border  bottom-10 right-10 cursor-no-drop hover:bg-red-500 hover:text-white">
+                        <Button aria-label="delete" onClick={(event) => deleteNoteHandler(id, event)} className=" absolute border  bottom-10 right-10 cursor-no-drop hover:bg-red-500 hover:text-white">
 
                             {
                                 deleteButtonContent

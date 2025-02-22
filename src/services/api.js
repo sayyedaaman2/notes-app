@@ -36,6 +36,7 @@ class API{
             let response = await this.instance.delete(`/${path}`);
             return response.data;
         } catch (error) {
+            console.log(error);
             throw new Error(error);
         }
     }
