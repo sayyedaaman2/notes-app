@@ -1,14 +1,14 @@
 import {screen, waitFor} from '@testing-library/react'
-import Form from '../../../components/Form'
-import Button from '../../../components/common/Button'
-import server from '../../mock-api-server'
-import { renderWithAppContext, waitOneTick } from '../../utils'
+import Form from '../../components/Form'
+import Button from '../../components/common/Button'
+import server from '../mock-api-server'
+import { renderWithAppContext, waitOneTick } from '../utils'
 import userEvent from '@testing-library/user-event'
 import { http,HttpResponse } from 'msw'
 import { useState } from 'react'
 import {v4 as uuidv4} from 'uuid'
-import { useAddNote } from '../../../hooks/queryClient'
-import { notify } from '../../../hooks/useNotification'
+import { useAddNote } from '../../hooks/queryClient'
+import { notify } from '../../hooks/useNotification'
 describe("Form Component",()=>{
     beforeEach(()=>{
         server.use(

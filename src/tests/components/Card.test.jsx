@@ -63,7 +63,6 @@ describe("Card Component",()=>{
                 expect(screen.getByRole('button',{name : /Save/})).toBeInTheDocument();
             })
 
-        screen.debug();
     
     })
     it("Card Pinned",async()=>{
